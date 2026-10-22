@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/status",
+      "destination": "https://nebulamediaservices.statuspage.io/api/v2/summary.json"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/status",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }
+      ]
+    }
+  ]
+}

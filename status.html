@@ -122,7 +122,7 @@
         </div>
         <div id="componentsRoot"><p class="loading-msg">Loading components…</p></div>
         <div class="kicker" style="margin-top:48px">Incidents</div>
-        <h2 style="font-size:1.35rem;margin-bottom:16px">Active & past</h2>
+        <h2 style="font-size:1.35rem;margin-bottom:16px">Active &amp; past</h2>
         <div id="incidentsRoot"><p class="loading-msg">Loading incidents…</p></div>
         <p class="live-source">Live data from <a href="https://nebulamediaservices.statuspage.io" target="_blank" rel="noopener">nebulamediaservices.statuspage.io</a></p>
       </div>
@@ -149,7 +149,13 @@
   <script src="script.js"></script>
   <script>
   (function () {
-    var STATUS_URL = 'https://nebulamediaservices.statuspage.io/api/v2/summary.json';
+    // Same-origin proxy first (Vercel rewrite) — avoids browser CORS failures.
+    // Falls back to the public Statuspage API if proxy is unavailable (e.g. local file open).
+    var ENDPOINTS = [
+      '/api/status',
+      'https://nebulamediaservices.statuspage.io/api/v2/summary.json'
+    ];
+
     var STATUS_MAP = {
       operational: { pill: 'operational', label: 'Operational' },
       degraded_performance: { pill: 'degraded', label: 'Degraded' },
@@ -196,8 +202,6 @@
       document.getElementById('bannerIcon').textContent = map.icon;
       document.getElementById('bannerTitle').textContent = desc || map.title;
 
-      // Always show "Updated" in the visitor's local timezone (current fetch time).
-      // Also show Statuspage's last change time if present, converted to local TZ.
       var nowLocal = formatLocal(new Date());
       var pageUpdated = data.page && data.page.updated_at ? formatLocal(new Date(data.page.updated_at)) : null;
       var sub = desc;
@@ -217,7 +221,9 @@
 
       var html = '';
       if (groups.length) {
+        var groupedIds = {};
         groups.forEach(function (g) {
+          groupedIds[g.id] = true;
           var kids = children.filter(function (c) { return c.group_id === g.id; })
             .sort(function (a, b) { return (a.position || 0) - (b.position || 0); });
           html += '<div class="group-block">';
@@ -228,9 +234,6 @@
           });
           html += '</ul></div>';
         });
-        // Any components not in a known group
-        var groupedIds = {};
-        groups.forEach(function (g) { groupedIds[g.id] = true; });
         var orphans = children.filter(function (c) { return !c.group_id || !groupedIds[c.group_id]; });
         if (orphans.length) {
           html += '<div class="group-block"><div class="group-head"><strong>Other</strong></div><ul class="component-list">';
@@ -270,28 +273,32 @@
       document.getElementById('globalBanner').className = 'status-banner degraded';
     }
 
-    function loadStatus() {
-      fetch(STATUS_URL + '?t=' + Date.now(), {
+    function fetchJson(url) {
+      return fetch(url + (url.indexOf('?') >= 0 ? '&' : '?') + 't=' + Date.now(), {
         cache: 'no-store',
-        headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' }
-      })
-        .then(function (r) {
-          if (!r.ok) throw new Error('HTTP ' + r.status);
-          return r.json();
-        })
-        .then(render)
-        .catch(function (e) {
-          fail(e && e.message ? e.message : 'Network error');
-        });
+        headers: { 'Accept': 'application/json', 'Cache-Control': 'no-cache' }
+      }).then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      });
+    }
+
+    function loadStatus() {
+      var i = 0;
+      function tryNext() {
+        if (i >= ENDPOINTS.length) {
+          fail('Failed to fetch status data');
+          return;
+        }
+        var url = ENDPOINTS[i++];
+        fetchJson(url).then(render).catch(function () { tryNext(); });
+      }
+      tryNext();
     }
 
     loadStatus();
-    window.addEventListener('pageshow', function (ev) {
-      if (ev.persisted) loadStatus();
-    });
-    document.addEventListener('visibilitychange', function () {
-      if (!document.hidden) loadStatus();
-    });
+    window.addEventListener('pageshow', function (ev) { if (ev.persisted) loadStatus(); });
+    document.addEventListener('visibilitychange', function () { if (!document.hidden) loadStatus(); });
     setInterval(loadStatus, 60000);
   })();
   </script>
