@@ -7,6 +7,24 @@
   <meta name="description" content="Nebula Services — privately operated media platform behind Cloudflare Access.">
   <title>Nebula Services — Private Media & Infrastructure</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .pkg-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 28px; }
+    @media (max-width: 720px) { .pkg-grid { grid-template-columns: 1fr; } }
+    .pkg-card {
+      background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg);
+      padding: 24px 22px; display: flex; flex-direction: column; gap: 10px;
+    }
+    .pkg-card .price {
+      font-family: var(--display); font-size: 1.35rem; font-weight: 800;
+      background: linear-gradient(110deg, var(--purple), var(--blue));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .pkg-card h3 { margin: 0; font-size: 1.1rem; }
+    .pkg-card p { color: var(--muted); font-size: 14px; line-height: 1.6; margin: 0; }
+    .pkg-card ul { margin: 4px 0 0 18px; color: var(--muted); font-size: 14px; line-height: 1.55; }
+    .pkg-card ul li { margin-bottom: 6px; }
+    .pkg-note { margin-top: 18px; color: var(--muted); font-size: 14px; max-width: 48em; }
+  </style>
 </head>
 <body>
   <div class="bg-layer" aria-hidden="true"></div>
@@ -43,7 +61,7 @@
       <div class="wrap">
         <div class="hero-eyebrow"><span class="dot"></span> Privately operated · Access for approved individuals only</div>
         <h1>Your private<br>media <span class="grad">universe.</span></h1>
-        <p class="lead">A closed, legally sourced media platform protected by Cloudflare Access. Access is granted only after review.</p>
+        <p class="lead">A closed media library for approved people only — stream in the browser or apps, protected by Cloudflare Access, with optional request quotas by package.</p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="access.html">Request Media Access →</a>
           <a class="btn btn-ghost" href="instructions.html">Setup instructions →</a>
@@ -51,33 +69,76 @@
         <div class="hero-meta">
           <div><strong>Jellyfin</strong><span>Private library</span></div>
           <div><strong>Cloudflare Access</strong><span>Identity at the edge</span></div>
-          <div><strong>Approved individuals</strong><span>Manual review only</span></div>
+          <div><strong>Manual review</strong><span>No open signup</span></div>
         </div>
       </div>
     </section>
+
     <section class="section">
       <div class="wrap">
-        <div class="kicker">What we offer</div>
-        <div class="split">
-          <h2>A privately operated<br><span class="grad">media platform.</span></h2>
-          <div>
-            <p>Invitation-only media library. Content is acquired through legal channels. Hosted behind Cloudflare Access.</p>
-            <a class="link" href="services.html">See services →</a><br>
-            <a class="link" href="instructions.html">Setup instructions →</a>
-          </div>
+        <div class="kicker">Packages</div>
+        <h2>What each tier<br><span class="grad">allows.</span></h2>
+        <p class="lead">Every approved account can stream titles already in the library. Higher tiers add a monthly request quota — shows and movies we review and add to the shared library when capacity allows.</p>
+        <div class="pkg-grid">
+          <article class="pkg-card">
+            <div class="price">Free</div>
+            <h3>Standard</h3>
+            <p>Best if you only want to watch what is already available.</p>
+            <ul>
+              <li>Full browse and playback of existing libraries</li>
+              <li>Browser access after Cloudflare Access</li>
+              <li>Optional WARP / Cloudflare One for mobile</li>
+              <li><strong>No media requests</strong> — view-only</li>
+            </ul>
+          </article>
+          <article class="pkg-card">
+            <div class="price">$10</div>
+            <h3>Donor</h3>
+            <p>Light request quota for occasional new titles.</p>
+            <ul>
+              <li>Everything in Free</li>
+              <li>Up to <strong>1 show</strong> and <strong>3 movies</strong> per month</li>
+              <li>Requests go into the shared library after review</li>
+              <li>Queue time varies with volume</li>
+            </ul>
+          </article>
+          <article class="pkg-card">
+            <div class="price">$15</div>
+            <h3>Super Donor</h3>
+            <p>More headroom if you request regularly.</p>
+            <ul>
+              <li>Everything in Free</li>
+              <li>Up to <strong>3 shows</strong> and <strong>10 movies</strong> per month</li>
+              <li>Same review and shared-library model as Donor</li>
+              <li>Queue time varies with volume</li>
+            </ul>
+          </article>
+          <article class="pkg-card">
+            <div class="price">$20</div>
+            <h3>Mega Donor</h3>
+            <p>Highest published request quota.</p>
+            <ul>
+              <li>Everything in Free</li>
+              <li>Up to <strong>5 shows</strong> and <strong>20 movies</strong> per month</li>
+              <li>Still subject to review — not unlimited personal downloads</li>
+              <li>Queue time varies with volume</li>
+            </ul>
+          </article>
         </div>
+        <p class="pkg-note">Choose your package on the <a class="link" href="access.html">Access</a> form. How to connect after approval is on <a class="link" href="instructions.html">Instructions</a>. Stack details (Jellyfin, Access, WARP) are on <a class="link" href="services.html">Services</a>.</p>
       </div>
     </section>
+
     <section class="section">
       <div class="wrap contact-row">
         <div>
           <div class="kicker">Get started</div>
           <h2>Want access?</h2>
-          <p class="lead">Submit a short request when applications are open. If approved, you will receive an approval email with credentials.</p>
+          <p class="lead">Submit a short request when applications are open. If approved, you receive credentials by email.</p>
         </div>
         <div style="display:flex;flex-wrap:wrap;gap:12px">
           <a class="btn btn-primary" href="access.html">Request Access →</a>
-          <a class="btn btn-ghost" href="instructions.html">Setup instructions →</a>
+          <a class="btn btn-ghost" href="services.html">How the stack works →</a>
         </div>
       </div>
     </section>
