@@ -7,25 +7,66 @@
   <title>System Status · Nebula Services</title>
   <link rel="stylesheet" href="styles.css">
   <style>
-    .status-banner { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; padding: 22px 24px; border-radius: var(--radius-lg); border: 1px solid rgba(34,197,94,0.35); background: linear-gradient(135deg, rgba(34,197,94,0.12), rgba(14,165,233,0.06)); margin-bottom: 40px; }
+    .status-banner {
+      display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+      padding: 22px 24px; border-radius: var(--radius-lg);
+      border: 1px solid rgba(34,197,94,0.35);
+      background: linear-gradient(135deg, rgba(34,197,94,0.12), rgba(14,165,233,0.06));
+      margin-bottom: 28px;
+    }
     .status-banner.major { border-color: rgba(239,68,68,0.4); background: linear-gradient(135deg, rgba(239,68,68,0.12), rgba(168,85,247,0.06)); }
-    .status-banner.degraded { border-color: rgba(234,179,8,0.4); }
-    .status-banner-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: rgba(34,197,94,0.2); color: #4ade80; font-size: 22px; }
+    .status-banner.degraded { border-color: rgba(234,179,8,0.4); background: linear-gradient(135deg, rgba(234,179,8,0.12), rgba(14,165,233,0.06)); }
+    .status-banner-icon {
+      width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+      background: rgba(34,197,94,0.2); color: #4ade80; font-size: 22px; flex-shrink: 0;
+    }
+    .status-banner.major .status-banner-icon { background: rgba(239,68,68,0.2); color: #f87171; }
+    .status-banner.degraded .status-banner-icon { background: rgba(234,179,8,0.2); color: #facc15; }
     .status-banner h2 { font-size: 1.25rem; margin: 0 0 4px; }
     .status-banner p { margin: 0; color: var(--muted); font-size: 14px; }
-    .uptime-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 40px; }
+    .uptime-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 36px; }
     @media (max-width: 700px) { .uptime-row { grid-template-columns: 1fr; } }
-    .uptime-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 20px; text-align: center; }
-    .uptime-card .pct { font-family: var(--display); font-size: 2rem; font-weight: 800; background: linear-gradient(110deg, var(--purple), var(--blue)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .uptime-card .lbl { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted-2); margin-top: 6px; }
-    .component-list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; background: var(--surface); }
-    .component-list li { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 22px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+    .uptime-card {
+      background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 22px 20px; text-align: center;
+    }
+    .uptime-card .pct {
+      font-family: var(--display); font-size: 2rem; font-weight: 800;
+      background: linear-gradient(110deg, var(--purple), var(--blue));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .uptime-card .lbl {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--muted-2); margin-top: 6px;
+    }
+    .group-block {
+      border: 1px solid var(--line); border-radius: var(--radius-lg);
+      overflow: hidden; background: var(--surface); margin-bottom: 16px;
+    }
+    .group-head {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+      padding: 16px 20px; border-bottom: 1px solid var(--line);
+      background: rgba(128,128,128,0.05);
+    }
+    .group-head strong { font-family: var(--display); font-size: 15px; }
+    .component-list { list-style: none; margin: 0; padding: 0; }
+    .component-list li {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      padding: 14px 20px 14px 28px; border-bottom: 1px solid var(--line); flex-wrap: wrap;
+    }
     .component-list li:last-child { border-bottom: none; }
-    .status-pill { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 7px 12px; border-radius: 999px; }
+    .status-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+      padding: 7px 12px; border-radius: 999px;
+    }
     .status-pill.operational { color: #4ade80; background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.28); }
     .status-pill.degraded { color: #facc15; background: rgba(234,179,8,0.12); border: 1px solid rgba(234,179,8,0.28); }
     .status-pill.outage { color: #f87171; background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.28); }
-    .incident-box { border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 28px 24px; background: var(--surface); color: var(--muted); font-size: 14.5px; margin-bottom: 16px; }
+    .incident-box {
+      border: 1px solid var(--line); border-radius: var(--radius-lg);
+      padding: 28px 24px; background: var(--surface); color: var(--muted); font-size: 14.5px; margin-bottom: 16px;
+    }
     .live-source { margin-top: 28px; font-size: 13px; color: var(--muted-2); }
     .live-source a { color: var(--blue); font-weight: 600; }
     .loading-msg { color: var(--muted); font-size: 14px; padding: 12px 0; }
@@ -62,7 +103,7 @@
       <div class="wrap">
         <div class="kicker">System status</div>
         <h1>Platform <span class="grad">health.</span></h1>
-        <p class="lead">Live overview from Statuspage. Refreshes on every visit.</p>
+        <p class="lead">Live overview from Statuspage — groups, components, and incidents. Refreshes on every visit.</p>
       </div>
     </section>
     <section class="section" style="padding-top:8px">
@@ -117,64 +158,140 @@
       under_maintenance: { pill: 'degraded', label: 'Maintenance' }
     };
     var INDICATOR_MAP = {
-      none: { cls: '', title: 'All systems operational', icon: '✓', overall: 'OK' },
+      none: { cls: '', title: 'All Systems Operational', icon: '✓', overall: 'OK' },
       minor: { cls: 'degraded', title: 'Minor issues', icon: '!', overall: 'Minor' },
       major: { cls: 'major', title: 'Major outage', icon: '✕', overall: 'Major' },
       critical: { cls: 'major', title: 'Critical outage', icon: '✕', overall: 'Critical' },
       maintenance: { cls: 'degraded', title: 'Maintenance', icon: '⚙', overall: 'Maint.' }
     };
-    function esc(s) { var d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; }
+
+    function esc(s) {
+      var d = document.createElement('div');
+      d.textContent = s == null ? '' : String(s);
+      return d.innerHTML;
+    }
+
+    function formatLocal(date) {
+      try {
+        return new Intl.DateTimeFormat(undefined, {
+          dateStyle: 'medium',
+          timeStyle: 'short'
+        }).format(date);
+      } catch (e) {
+        return date.toLocaleString();
+      }
+    }
+
     function pillHtml(status) {
       var m = STATUS_MAP[status] || { pill: 'degraded', label: status || 'Unknown' };
       return '<span class="status-pill ' + m.pill + '">' + esc(m.label) + '</span>';
     }
+
     function render(data) {
       var ind = (data.status && data.status.indicator) || 'none';
-      var desc = (data.status && data.status.description) || '';
+      var desc = (data.status && data.status.description) || 'All Systems Operational';
       var map = INDICATOR_MAP[ind] || INDICATOR_MAP.none;
       var banner = document.getElementById('globalBanner');
       banner.className = 'status-banner' + (map.cls ? ' ' + map.cls : '');
       document.getElementById('bannerIcon').textContent = map.icon;
-      document.getElementById('bannerTitle').textContent = (ind === 'none' && desc) ? desc : map.title;
-      var updated = data.page && data.page.updated_at
-        ? new Date(data.page.updated_at).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'America/New_York' }) + ' EDT'
-        : '';
-      document.getElementById('bannerSub').textContent = (desc || 'Live from Statuspage') + (updated ? ' · Updated ' + updated : '');
-      var comps = (data.components || []).filter(function (c) { return !c.group; });
-      var up = comps.filter(function (c) { return c.status === 'operational'; }).length;
-      document.getElementById('statComponents').textContent = up + '/' + comps.length;
+      document.getElementById('bannerTitle').textContent = desc || map.title;
+
+      // Always show "Updated" in the visitor's local timezone (current fetch time).
+      // Also show Statuspage's last change time if present, converted to local TZ.
+      var nowLocal = formatLocal(new Date());
+      var pageUpdated = data.page && data.page.updated_at ? formatLocal(new Date(data.page.updated_at)) : null;
+      var sub = desc;
+      if (pageUpdated) sub += ' · Statuspage last change ' + pageUpdated;
+      sub += ' · Checked ' + nowLocal;
+      document.getElementById('bannerSub').textContent = sub;
+
+      var all = data.components || [];
+      var groups = all.filter(function (c) { return c.group === true; })
+        .sort(function (a, b) { return (a.position || 0) - (b.position || 0); });
+      var children = all.filter(function (c) { return !c.group; });
+
+      var up = children.filter(function (c) { return c.status === 'operational'; }).length;
+      document.getElementById('statComponents').textContent = up + '/' + children.length;
       document.getElementById('statOpen').textContent = String((data.incidents || []).length);
       document.getElementById('statIndicator').textContent = map.overall;
-      var html = '<ul class="component-list">';
-      comps.sort(function (a, b) { return (a.position || 0) - (b.position || 0); }).forEach(function (c) {
-        html += '<li><div><strong>' + esc(c.name) + '</strong></div>' + pillHtml(c.status) + '</li>';
-      });
-      html += '</ul>';
+
+      var html = '';
+      if (groups.length) {
+        groups.forEach(function (g) {
+          var kids = children.filter(function (c) { return c.group_id === g.id; })
+            .sort(function (a, b) { return (a.position || 0) - (b.position || 0); });
+          html += '<div class="group-block">';
+          html += '<div class="group-head"><strong>' + esc(g.name) + '</strong>' + pillHtml(g.status) + '</div>';
+          html += '<ul class="component-list">';
+          kids.forEach(function (c) {
+            html += '<li><div><span>' + esc(c.name) + '</span></div>' + pillHtml(c.status) + '</li>';
+          });
+          html += '</ul></div>';
+        });
+        // Any components not in a known group
+        var groupedIds = {};
+        groups.forEach(function (g) { groupedIds[g.id] = true; });
+        var orphans = children.filter(function (c) { return !c.group_id || !groupedIds[c.group_id]; });
+        if (orphans.length) {
+          html += '<div class="group-block"><div class="group-head"><strong>Other</strong></div><ul class="component-list">';
+          orphans.sort(function (a, b) { return (a.position || 0) - (b.position || 0); }).forEach(function (c) {
+            html += '<li><div><span>' + esc(c.name) + '</span></div>' + pillHtml(c.status) + '</li>';
+          });
+          html += '</ul></div>';
+        }
+      } else {
+        html = '<ul class="component-list" style="border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;background:var(--surface)">';
+        children.sort(function (a, b) { return (a.position || 0) - (b.position || 0); }).forEach(function (c) {
+          html += '<li><div><strong>' + esc(c.name) + '</strong></div>' + pillHtml(c.status) + '</li>';
+        });
+        html += '</ul>';
+      }
       document.getElementById('componentsRoot').innerHTML = html;
+
       var incs = data.incidents || [];
       if (!incs.length) {
         document.getElementById('incidentsRoot').innerHTML = '<div class="incident-box">No active incidents right now.</div>';
       } else {
         var ih = '';
         incs.forEach(function (inc) {
-          ih += '<div class="incident-box"><strong>' + esc(inc.name) + '</strong></div>';
+          ih += '<div class="incident-box"><strong>' + esc(inc.name) + '</strong>';
+          if (inc.status) ih += ' · ' + esc(inc.status);
+          if (inc.updated_at) ih += '<br><span style="font-size:13px">Updated ' + esc(formatLocal(new Date(inc.updated_at))) + '</span>';
+          ih += '</div>';
         });
         document.getElementById('incidentsRoot').innerHTML = ih;
       }
     }
+
     function fail(msg) {
       document.getElementById('bannerTitle').textContent = 'Status temporarily unavailable';
       document.getElementById('bannerSub').textContent = msg || 'Could not reach Statuspage.';
       document.getElementById('bannerIcon').textContent = '!';
+      document.getElementById('globalBanner').className = 'status-banner degraded';
     }
+
     function loadStatus() {
-      fetch(STATUS_URL + '?t=' + Date.now(), { cache: 'no-store', headers: { 'Cache-Control': 'no-cache' } })
-        .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      fetch(STATUS_URL + '?t=' + Date.now(), {
+        cache: 'no-store',
+        headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' }
+      })
+        .then(function (r) {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.json();
+        })
         .then(render)
-        .catch(function (e) { fail(e && e.message ? e.message : 'Network error'); });
+        .catch(function (e) {
+          fail(e && e.message ? e.message : 'Network error');
+        });
     }
+
     loadStatus();
-    window.addEventListener('pageshow', function (ev) { if (ev.persisted) loadStatus(); });
+    window.addEventListener('pageshow', function (ev) {
+      if (ev.persisted) loadStatus();
+    });
+    document.addEventListener('visibilitychange', function () {
+      if (!document.hidden) loadStatus();
+    });
     setInterval(loadStatus, 60000);
   })();
   </script>
