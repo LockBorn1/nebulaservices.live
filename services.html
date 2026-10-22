@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#030712">
+  <title>Services · Nebula Services</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="bg-layer" aria-hidden="true"></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html">
+        <span class="logo" aria-hidden="true"></span>
+        <span class="word">NEBULA</span>
+        <span class="sub">SERVICES</span>
+      </a>
+      <nav class="nav" aria-label="Primary">
+        <a href="services.html" class="is-active">Services</a>
+        <a href="access.html">Access</a>
+        <a href="instructions.html">Instructions</a>
+        <a href="about.html">About</a>
+      </nav>
+      <div class="header-actions">
+        <button type="button" class="theme-btn" id="themeToggle" aria-label="Toggle theme" title="Theme">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 14.5A8.5 8.5 0 1 1 9.5 3 7 7 0 0 0 21 14.5z"/></svg>
+        </button>
+        <button class="menu-btn" id="menuBtn" type="button" aria-label="Menu" aria-expanded="false"><i aria-hidden="true"></i></button>
+      </div>
+    </div>
+  </header>
+  <nav class="nav-drawer" aria-label="Mobile">
+    <a href="services.html" class="is-active">Services</a>
+    <a href="access.html">Access</a>
+    <a href="instructions.html">Instructions</a>
+    <a href="about.html">About</a>
+    <button type="button" id="themeToggleDrawer" class="drawer-theme-btn">☾ Dark mode (tap for light)</button>
+  </nav>
+  <main>
+    <section class="page-hero">
+      <div class="wrap">
+        <div class="kicker">Services</div>
+        <h1>What you get<br>after <span class="grad">approval.</span></h1>
+        <p class="lead">A private media stack: Jellyfin for playback, Cloudflare Access for identity, and optional Cloudflare One for mobile and locked networks.</p>
+      </div>
+    </section>
+    <section class="section" style="padding-top:8px">
+      <div class="wrap">
+        <div class="cards-2">
+          <article class="card">
+            <div class="card-icon">✧</div>
+            <h3>Private media library</h3>
+            <p>Stream from a curated Jellyfin library in the browser or supported apps. Free accounts can browse and watch existing titles. Donor tiers add monthly show and movie request quotas that we fulfill into the library.</p>
+          </article>
+          <article class="card">
+            <div class="card-icon">◈</div>
+            <h3>Cloudflare Access</h3>
+            <p>Every session hits an identity check at the edge. Only emails we have explicitly allowed can pass. Your approval letter lists the address to use; other identities will be denied.</p>
+          </article>
+          <article class="card">
+            <div class="card-icon">◎</div>
+            <h3>Cloudflare One (WARP)</h3>
+            <p>Optional on desktop; recommended on mobile. Connect to organization <strong>nebulaservices</strong> so traffic to the library follows our Zero Trust path. Setup steps are on the public Instructions page.</p>
+          </article>
+          <article class="card">
+            <div class="card-icon">▣</div>
+            <h3>Packages</h3>
+            <p><strong>Free</strong> — view-only. <strong>Donor ($10)</strong> — 1 show + 3 movies/month. <strong>Super ($15)</strong> — 3 shows + 10 movies. <strong>Mega ($20)</strong> — 5 shows + 20 movies. Queue times depend on volume.</p>
+          </article>
+        </div>
+        <div class="panel" style="margin-top:40px">
+          <div class="kicker">Boundaries</div>
+          <h2>Media access only.</h2>
+          <p>The request form is for library access. It does not grant infrastructure control or admin rights. After approval, follow the public Instructions page for setup and status.</p>
+          <div style="margin-top:20px;display:flex;flex-wrap:wrap;gap:12px">
+            <a class="btn btn-primary" href="access.html">Request media access</a>
+            <a class="btn btn-ghost" href="instructions.html">Instructions</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-top">
+        <a class="brand" href="index.html"><span class="logo" aria-hidden="true"></span><span class="word">NEBULA</span><span class="sub">SERVICES</span></a>
+        <div class="footer-links">
+          <a href="legal.html">Legal</a>
+          <a href="about.html">About</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="about.html#contact">Contact</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Nebula Services</span>
+        <span>Private · Access for approved individuals only</span>
+        <a href="privacy.html">Privacy Policy →</a>
+      </div>
+    </div>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>

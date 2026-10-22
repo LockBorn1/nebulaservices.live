@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#030712">
+  <title>About · Nebula Services</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="bg-layer" aria-hidden="true"></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html">
+        <span class="logo" aria-hidden="true"></span>
+        <span class="word">NEBULA</span>
+        <span class="sub">SERVICES</span>
+      </a>
+      <nav class="nav" aria-label="Primary">
+        <a href="services.html">Services</a>
+        <a href="access.html">Access</a>
+        <a href="instructions.html">Instructions</a>
+        <a href="about.html" class="is-active">About</a>
+      </nav>
+      <div class="header-actions">
+        <button type="button" class="theme-btn" id="themeToggle" aria-label="Toggle theme" title="Theme">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 14.5A8.5 8.5 0 1 1 9.5 3 7 7 0 0 0 21 14.5z"/></svg>
+        </button>
+        <button class="menu-btn" id="menuBtn" type="button" aria-label="Menu" aria-expanded="false"><i aria-hidden="true"></i></button>
+      </div>
+    </div>
+  </header>
+  <nav class="nav-drawer" aria-label="Mobile">
+    <a href="services.html">Services</a>
+    <a href="access.html">Access</a>
+    <a href="instructions.html">Instructions</a>
+    <a href="about.html" class="is-active">About</a>
+    <button type="button" id="themeToggleDrawer" class="drawer-theme-btn">☾ Dark mode (tap for light)</button>
+  </nav>
+  <main>
+    <section class="page-hero">
+      <div class="wrap">
+        <div class="kicker">About</div>
+        <h1>How the project<br><span class="grad">is run.</span></h1>
+        <p class="lead">Nebula Services runs a closed media library and the access controls around it. Public pages explain the offer; accounts are created only after review.</p>
+      </div>
+    </section>
+    <section class="section" style="padding-top:12px">
+      <div class="wrap prose">
+        <h2>Scope</h2>
+        <p>We operate a private Jellyfin library protected by Cloudflare Access and optional Cloudflare One (WARP). Content is acquired through legitimate channels. The public site is for information and access requests — not open registration.</p>
+        <h2>Access model</h2>
+        <p>Anyone may submit a request when applications are open. Approval is manual. After approval you receive library credentials by email. Package tiers (Free, Donor, Super, Mega) define request quotas; Free is view-only. Setup steps are on the public Instructions page.</p>
+        <h2 id="contact">Contact</h2>
+        <p>Public contact is the CIO only:</p>
+        <p><a class="link" href="mailto:milnerg-admin@nebulaservices.live">milnerg-admin@nebulaservices.live</a></p>
+        <p>Use this address for access questions, account issues, and privacy requests.</p>
+        <h2 id="legal">Legal &amp; privacy</h2>
+        <p>Access is for approved individuals only. Credential sharing is grounds for termination. We have methods in place to detect it. Full text: <a class="link" href="legal.html">Legal</a> · <a class="link" href="privacy.html">Privacy</a>.</p>
+      </div>
+    </section>
+    <section class="section">
+      <div class="wrap">
+        <div class="kicker">Leadership</div>
+        <h2>Roles</h2>
+        <div class="cards-2" style="margin-top:28px">
+          <article class="card" style="min-height:auto">
+            <div class="card-icon">⚙</div>
+            <h3>Milnerg-admin · CIO</h3>
+            <p>Infrastructure, Cloudflare Access, Jellyfin, security policy, and day-to-day platform operations. Primary public contact for all requests.</p>
+            <p style="margin-top:12px;font-size:14px;color:var(--muted)"><a class="link" href="mailto:milnerg-admin@nebulaservices.live">milnerg-admin@nebulaservices.live</a></p>
+          </article>
+          <article class="card" style="min-height:auto">
+            <div class="card-icon">◈</div>
+            <h3>SimplyRare · CFO</h3>
+            <p>Financial planning, donation accounting, and infrastructure budget. No public contact — only provisioned users may reach the CFO through official channels after they have an account.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-top">
+        <a class="brand" href="index.html"><span class="logo" aria-hidden="true"></span><span class="word">NEBULA</span><span class="sub">SERVICES</span></a>
+        <div class="footer-links">
+          <a href="legal.html">Legal</a>
+          <a href="about.html">About</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="about.html#contact">Contact</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Nebula Services</span>
+        <span>Private · Access for approved individuals only</span>
+        <a href="privacy.html">Privacy Policy →</a>
+      </div>
+    </div>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
