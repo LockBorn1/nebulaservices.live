@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#030712">
+  <title>System Status · Nebula Services</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .status-banner { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; padding: 22px 24px; border-radius: var(--radius-lg); border: 1px solid rgba(34,197,94,0.35); background: linear-gradient(135deg, rgba(34,197,94,0.12), rgba(14,165,233,0.06)); margin-bottom: 40px; }
+    .status-banner.major { border-color: rgba(239,68,68,0.4); background: linear-gradient(135deg, rgba(239,68,68,0.12), rgba(168,85,247,0.06)); }
+    .status-banner.degraded { border-color: rgba(234,179,8,0.4); }
+    .status-banner-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: rgba(34,197,94,0.2); color: #4ade80; font-size: 22px; }
+    .status-banner h2 { font-size: 1.25rem; margin: 0 0 4px; }
+    .status-banner p { margin: 0; color: var(--muted); font-size: 14px; }
+    .uptime-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 40px; }
+    @media (max-width: 700px) { .uptime-row { grid-template-columns: 1fr; } }
+    .uptime-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 20px; text-align: center; }
+    .uptime-card .pct { font-family: var(--display); font-size: 2rem; font-weight: 800; background: linear-gradient(110deg, var(--purple), var(--blue)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .uptime-card .lbl { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted-2); margin-top: 6px; }
+    .component-list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; background: var(--surface); }
+    .component-list li { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 22px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+    .component-list li:last-child { border-bottom: none; }
+    .status-pill { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 7px 12px; border-radius: 999px; }
+    .status-pill.operational { color: #4ade80; background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.28); }
+    .status-pill.degraded { color: #facc15; background: rgba(234,179,8,0.12); border: 1px solid rgba(234,179,8,0.28); }
+    .status-pill.outage { color: #f87171; background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.28); }
+    .incident-box { border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 28px 24px; background: var(--surface); color: var(--muted); font-size: 14.5px; margin-bottom: 16px; }
+    .live-source { margin-top: 28px; font-size: 13px; color: var(--muted-2); }
+    .live-source a { color: var(--blue); font-weight: 600; }
+    .loading-msg { color: var(--muted); font-size: 14px; padding: 12px 0; }
+  </style>
+</head>
+<body>
+  <div class="bg-layer" aria-hidden="true"></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html"><span class="logo" aria-hidden="true"></span><span class="word">NEBULA</span><span class="sub">SERVICES</span></a>
+      <nav class="nav" aria-label="Primary">
+        <a href="services.html">Services</a>
+        <a href="access.html">Access</a>
+        <a href="instructions.html">Instructions</a>
+        <a href="about.html">About</a>
+      </nav>
+      <div class="header-actions">
+        <button type="button" class="theme-btn" id="themeToggle" aria-label="Toggle theme" title="Theme">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 14.5A8.5 8.5 0 1 1 9.5 3 7 7 0 0 0 21 14.5z"/></svg>
+        </button>
+        <button class="menu-btn" id="menuBtn" type="button" aria-label="Menu" aria-expanded="false"><i aria-hidden="true"></i></button>
+      </div>
+    </div>
+  </header>
+  <nav class="nav-drawer" aria-label="Mobile">
+    <a href="services.html">Services</a>
+    <a href="access.html">Access</a>
+    <a href="instructions.html">Instructions</a>
+    <a href="about.html">About</a>
+    <button type="button" id="themeToggleDrawer" class="drawer-theme-btn">☾ Dark mode (tap for light)</button>
+  </nav>
+  <main>
+    <section class="page-hero">
+      <div class="wrap">
+        <div class="kicker">System status</div>
+        <h1>Platform <span class="grad">health.</span></h1>
+        <p class="lead">Live overview from Statuspage. Refreshes on every visit.</p>
+      </div>
+    </section>
+    <section class="section" style="padding-top:8px">
+      <div class="wrap">
+        <div class="status-banner" id="globalBanner">
+          <div class="status-banner-icon" id="bannerIcon">…</div>
+          <div>
+            <h2 id="bannerTitle">Loading status…</h2>
+            <p id="bannerSub">Fetching live data</p>
+          </div>
+        </div>
+        <div class="uptime-row">
+          <div class="uptime-card"><div class="pct" id="statComponents">—</div><div class="lbl">Components up</div></div>
+          <div class="uptime-card"><div class="pct" id="statOpen">—</div><div class="lbl">Open incidents</div></div>
+          <div class="uptime-card"><div class="pct" id="statIndicator">—</div><div class="lbl">Overall</div></div>
+        </div>
+        <div id="componentsRoot"><p class="loading-msg">Loading components…</p></div>
+        <div class="kicker" style="margin-top:48px">Incidents</div>
+        <h2 style="font-size:1.35rem;margin-bottom:16px">Active & past</h2>
+        <div id="incidentsRoot"><p class="loading-msg">Loading incidents…</p></div>
+        <p class="live-source">Live data from <a href="https://nebulamediaservices.statuspage.io" target="_blank" rel="noopener">nebulamediaservices.statuspage.io</a></p>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-top">
+        <a class="brand" href="index.html"><span class="logo" aria-hidden="true"></span><span class="word">NEBULA</span><span class="sub">SERVICES</span></a>
+        <div class="footer-links">
+          <a href="legal.html">Legal</a>
+          <a href="about.html">About</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="about.html#contact">Contact</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Nebula Services</span>
+        <span>Private · Access for approved individuals only</span>
+        <a href="privacy.html">Privacy Policy →</a>
+      </div>
+    </div>
+  </footer>
+  <script src="script.js"></script>
+  <script>
+  (function () {
+    var STATUS_URL = 'https://nebulamediaservices.statuspage.io/api/v2/summary.json';
+    var STATUS_MAP = {
+      operational: { pill: 'operational', label: 'Operational' },
+      degraded_performance: { pill: 'degraded', label: 'Degraded' },
+      partial_outage: { pill: 'degraded', label: 'Partial outage' },
+      major_outage: { pill: 'outage', label: 'Major outage' },
+      under_maintenance: { pill: 'degraded', label: 'Maintenance' }
+    };
+    var INDICATOR_MAP = {
+      none: { cls: '', title: 'All systems operational', icon: '✓', overall: 'OK' },
+      minor: { cls: 'degraded', title: 'Minor issues', icon: '!', overall: 'Minor' },
+      major: { cls: 'major', title: 'Major outage', icon: '✕', overall: 'Major' },
+      critical: { cls: 'major', title: 'Critical outage', icon: '✕', overall: 'Critical' },
+      maintenance: { cls: 'degraded', title: 'Maintenance', icon: '⚙', overall: 'Maint.' }
+    };
+    function esc(s) { var d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; }
+    function pillHtml(status) {
+      var m = STATUS_MAP[status] || { pill: 'degraded', label: status || 'Unknown' };
+      return '<span class="status-pill ' + m.pill + '">' + esc(m.label) + '</span>';
+    }
+    function render(data) {
+      var ind = (data.status && data.status.indicator) || 'none';
+      var desc = (data.status && data.status.description) || '';
+      var map = INDICATOR_MAP[ind] || INDICATOR_MAP.none;
+      var banner = document.getElementById('globalBanner');
+      banner.className = 'status-banner' + (map.cls ? ' ' + map.cls : '');
+      document.getElementById('bannerIcon').textContent = map.icon;
+      document.getElementById('bannerTitle').textContent = (ind === 'none' && desc) ? desc : map.title;
+      var updated = data.page && data.page.updated_at
+        ? new Date(data.page.updated_at).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'America/New_York' }) + ' EDT'
+        : '';
+      document.getElementById('bannerSub').textContent = (desc || 'Live from Statuspage') + (updated ? ' · Updated ' + updated : '');
+      var comps = (data.components || []).filter(function (c) { return !c.group; });
+      var up = comps.filter(function (c) { return c.status === 'operational'; }).length;
+      document.getElementById('statComponents').textContent = up + '/' + comps.length;
+      document.getElementById('statOpen').textContent = String((data.incidents || []).length);
+      document.getElementById('statIndicator').textContent = map.overall;
+      var html = '<ul class="component-list">';
+      comps.sort(function (a, b) { return (a.position || 0) - (b.position || 0); }).forEach(function (c) {
+        html += '<li><div><strong>' + esc(c.name) + '</strong></div>' + pillHtml(c.status) + '</li>';
+      });
+      html += '</ul>';
+      document.getElementById('componentsRoot').innerHTML = html;
+      var incs = data.incidents || [];
+      if (!incs.length) {
+        document.getElementById('incidentsRoot').innerHTML = '<div class="incident-box">No active incidents right now.</div>';
+      } else {
+        var ih = '';
+        incs.forEach(function (inc) {
+          ih += '<div class="incident-box"><strong>' + esc(inc.name) + '</strong></div>';
+        });
+        document.getElementById('incidentsRoot').innerHTML = ih;
+      }
+    }
+    function fail(msg) {
+      document.getElementById('bannerTitle').textContent = 'Status temporarily unavailable';
+      document.getElementById('bannerSub').textContent = msg || 'Could not reach Statuspage.';
+      document.getElementById('bannerIcon').textContent = '!';
+    }
+    function loadStatus() {
+      fetch(STATUS_URL + '?t=' + Date.now(), { cache: 'no-store', headers: { 'Cache-Control': 'no-cache' } })
+        .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+        .then(render)
+        .catch(function (e) { fail(e && e.message ? e.message : 'Network error'); });
+    }
+    loadStatus();
+    window.addEventListener('pageshow', function (ev) { if (ev.persisted) loadStatus(); });
+    setInterval(loadStatus, 60000);
+  })();
+  </script>
+</body>
+</html>
