@@ -4,8 +4,63 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#030712">
-  <title>Services · Nebula Services</title>
+  <title>Services & Plans · Nebula Services</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .pkg-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+    @media (max-width: 720px) { .pkg-grid { grid-template-columns: 1fr; } }
+    .pkg-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 26px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: border-color 0.15s, transform 0.15s;
+    }
+    .pkg-card:hover { border-color: var(--line-strong); transform: translateY(-2px); }
+    .pkg-card.featured {
+      border-color: color-mix(in srgb, var(--blue) 45%, var(--line));
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--blue) 20%, transparent);
+    }
+    .pkg-card .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 4px;
+    }
+    .pkg-card .price {
+      font-family: var(--display);
+      font-size: 1.5rem;
+      font-weight: 800;
+      background: linear-gradient(110deg, var(--purple), var(--blue));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .pkg-card h3 { margin: 0; font-size: 1.15rem; }
+    .pkg-card p { color: var(--muted); font-size: 14px; line-height: 1.6; margin: 0; }
+    .pkg-card ul { margin: 6px 0 0 18px; color: var(--muted); font-size: 14px; line-height: 1.55; }
+    .pkg-card ul li { margin-bottom: 6px; }
+    .pkg-card .cta { margin-top: 14px; }
+    .anchor-nav {
+      display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 8px;
+    }
+    .anchor-nav a {
+      padding: 8px 14px; border-radius: 999px; font-size: 13px; font-weight: 600;
+      border: 1px solid var(--line-strong); color: var(--muted);
+    }
+    .anchor-nav a:hover { color: var(--text); border-color: var(--blue); }
+  </style>
 </head>
 <body>
   <div class="bg-layer" aria-hidden="true"></div>
@@ -17,41 +72,49 @@
         <span class="sub">SERVICES</span>
       </a>
       <nav class="nav" aria-label="Primary">
-        <a href="services.html" class="is-active">Services</a>
+        <a href="services.html" class="is-active">Services & Plans</a>
         <a href="access.html">Access</a>
         <a href="instructions.html">Instructions</a>
-        <a href="about.html">About</a>
+        <a href="support.html">Support</a>
       </nav>
       <div class="header-actions">
-        <button type="button" class="theme-btn" id="themeToggle" aria-label="Toggle theme" title="Theme">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 14.5A8.5 8.5 0 1 1 9.5 3 7 7 0 0 0 21 14.5z"/></svg>
-        </button>
+        <button type="button" class="theme-btn" id="themeToggle" aria-label="Choose theme" title="Themes"></button>
         <button class="menu-btn" id="menuBtn" type="button" aria-label="Menu" aria-expanded="false"><i aria-hidden="true"></i></button>
       </div>
     </div>
   </header>
   <nav class="nav-drawer" aria-label="Mobile">
-    <a href="services.html" class="is-active">Services</a>
+    <a href="services.html" class="is-active">Services & Plans</a>
     <a href="access.html">Access</a>
     <a href="instructions.html">Instructions</a>
+    <a href="support.html">Support</a>
     <a href="about.html">About</a>
-    <button type="button" id="themeToggleDrawer" class="drawer-theme-btn">☾ Dark mode (tap for light)</button>
+    <button type="button" id="themeToggleDrawer" class="drawer-theme-btn">Theme</button>
   </nav>
   <main>
     <section class="page-hero">
       <div class="wrap">
-        <div class="kicker">Services</div>
-        <h1>The stack behind<br>the <span class="grad">library.</span></h1>
-        <p class="lead">How playback, identity, and mobile connectivity fit together after you are approved. Package tiers and request quotas are listed on the <a class="link" href="index.html">home page</a>.</p>
+        <div class="kicker">Services & Plans</div>
+        <h1>The stack and<br>the <span class="grad">tiers.</span></h1>
+        <p class="lead">How the platform works, what each plan includes, and what happens after you request access.</p>
+        <div class="anchor-nav">
+          <a href="#services">Services</a>
+          <a href="#plans">Plans</a>
+          <a href="#compare">How requests work</a>
+        </div>
       </div>
     </section>
-    <section class="section" style="padding-top:8px">
+
+    <section class="section" id="services" style="padding-top:12px">
       <div class="wrap">
+        <div class="kicker">Platform</div>
+        <h2>Core services</h2>
+        <p class="lead" style="margin-bottom:28px">Everything below is for approved accounts only. There is no public self-serve signup.</p>
         <div class="cards-2">
           <article class="card">
             <div class="card-icon">✧</div>
             <h3>Jellyfin library</h3>
-            <p>Stream from a private Jellyfin instance in the browser or official apps. Libraries are curated and shared across approved users — new titles from request tiers are added here after review, not delivered as personal files.</p>
+            <p>Stream from a private Jellyfin instance in the browser or official apps. Libraries are curated and shared across approved users. New titles from request tiers are added to this shared collection after review — not delivered as personal downloads.</p>
           </article>
           <article class="card">
             <div class="card-icon">◈</div>
@@ -61,22 +124,98 @@
           <article class="card">
             <div class="card-icon">◎</div>
             <h3>Cloudflare One (WARP)</h3>
-            <p>Optional on desktop; useful on phones and restricted networks. Join organization <strong>nebulaservices</strong> with your approved email so library traffic follows our Zero Trust path. Step-by-step setup is on Instructions.</p>
+            <p>Optional on desktop; useful on phones and restricted networks. Join organization <strong>nebulaservices</strong> with your approved email so library traffic follows our Zero Trust path. Full setup steps are on Instructions.</p>
           </article>
           <article class="card">
             <div class="card-icon">▣</div>
-            <h3>What this is not</h3>
-            <p>Access is media-library only. It does not include shell access, admin panels, or control of infrastructure. Support and account changes go through the admin email, not shared chats.</p>
+            <h3>Manual review & support</h3>
+            <p>Access is media-library only. It does not include shell access, admin panels, or control of infrastructure. Account changes and support go through the Support Center or admin email.</p>
           </article>
         </div>
-        <div class="panel" style="margin-top:40px">
+      </div>
+    </section>
+
+    <section class="section" id="plans">
+      <div class="wrap">
+        <div class="kicker">Plans</div>
+        <h2>Package tiers</h2>
+        <p class="lead">Every approved account can stream what is already in the library. Paid tiers add a monthly request quota for shows and movies we may add after review.</p>
+        <div class="pkg-grid">
+          <article class="pkg-card">
+            <div class="price">Free</div>
+            <h3>Standard</h3>
+            <p>Best if you only want to watch what is already available.</p>
+            <ul>
+              <li>Full browse and playback of existing libraries</li>
+              <li>Browser access after Cloudflare Access</li>
+              <li>Optional WARP / Cloudflare One for mobile</li>
+              <li><strong>No media requests</strong> — view-only quota</li>
+            </ul>
+            <div class="cta"><a class="btn btn-ghost" href="access.html">Request this plan →</a></div>
+          </article>
+          <article class="pkg-card">
+            <div class="price">$10</div>
+            <h3>Donor</h3>
+            <p>Light request quota for occasional new titles.</p>
+            <ul>
+              <li>Everything in Standard</li>
+              <li>Up to <strong>1 show</strong> and <strong>3 movies</strong> per month</li>
+              <li>Requests enter the shared library after review</li>
+              <li>Queue time varies with volume</li>
+            </ul>
+            <div class="cta"><a class="btn btn-ghost" href="access.html">Request this plan →</a></div>
+          </article>
+          <article class="pkg-card featured">
+            <span class="badge">Popular</span>
+            <div class="price">$15</div>
+            <h3>Super Donor</h3>
+            <p>More headroom if you request regularly.</p>
+            <ul>
+              <li>Everything in Standard</li>
+              <li>Up to <strong>3 shows</strong> and <strong>10 movies</strong> per month</li>
+              <li>Same review and shared-library model</li>
+              <li>Queue time varies with volume</li>
+            </ul>
+            <div class="cta"><a class="btn btn-primary" href="access.html">Request this plan →</a></div>
+          </article>
+          <article class="pkg-card">
+            <div class="price">$20</div>
+            <h3>Mega Donor</h3>
+            <p>Highest published request quota.</p>
+            <ul>
+              <li>Everything in Standard</li>
+              <li>Up to <strong>5 shows</strong> and <strong>20 movies</strong> per month</li>
+              <li>Still subject to review — not unlimited personal copies</li>
+              <li>Queue time varies with volume</li>
+            </ul>
+            <div class="cta"><a class="btn btn-ghost" href="access.html">Request this plan →</a></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="compare">
+      <div class="wrap">
+        <div class="kicker">Requests</div>
+        <h2>How media requests work</h2>
+        <div class="cards-2" style="margin-top:24px">
+          <article class="card">
+            <h3>Shared, not personal</h3>
+            <p>Approved requests are added to the shared library when capacity allows. They are not private downloads or exclusive to one account.</p>
+          </article>
+          <article class="card">
+            <h3>Review required</h3>
+            <p>Every request is reviewed. Incomplete, duplicate, or low-effort requests may be declined. Quotas reset monthly; unused slots do not roll over unless we say otherwise.</p>
+          </article>
+        </div>
+        <div class="panel" style="margin-top:32px">
           <div class="kicker">Next steps</div>
-          <h2>Ready to request or connect?</h2>
-          <p>New users apply on Access. Approved users follow Instructions for browser and WARP setup. Live health is on the status page.</p>
-          <div style="margin-top:20px;display:flex;flex-wrap:wrap;gap:12px">
+          <h2>Ready to apply or connect?</h2>
+          <p>New users submit a package choice on Access. Approved users follow Instructions. Questions go to the Support Center.</p>
+          <div style="margin-top:18px;display:flex;flex-wrap:wrap;gap:12px">
             <a class="btn btn-primary" href="access.html">Request access</a>
             <a class="btn btn-ghost" href="instructions.html">Instructions</a>
-            <a class="btn btn-ghost" href="status.html">Status</a>
+            <a class="btn btn-ghost" href="support.html">Support</a>
           </div>
         </div>
       </div>
@@ -90,7 +229,7 @@
           <a href="legal.html">Legal</a>
           <a href="about.html">About</a>
           <a href="privacy.html">Privacy</a>
-          <a href="about.html#contact">Contact</a>
+          <a href="support.html">Support</a>
         </div>
       </div>
       <div class="footer-bottom">
