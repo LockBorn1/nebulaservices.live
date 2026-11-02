@@ -8,22 +8,130 @@
   <title>Nebula Services — Private Media & Infrastructure</title>
   <link rel="stylesheet" href="styles.css">
   <style>
-    .pkg-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 28px; }
-    @media (max-width: 720px) { .pkg-grid { grid-template-columns: 1fr; } }
-    .pkg-card {
-      background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg);
-      padding: 24px 22px; display: flex; flex-direction: column; gap: 10px;
+    .hero-anim {
+      position: relative;
+      overflow: hidden;
+      padding: 88px 0 72px;
     }
-    .pkg-card .price {
-      font-family: var(--display); font-size: 1.35rem; font-weight: 800;
+    .hero-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      pointer-events: none;
+      opacity: 0.55;
+      animation: floatOrb 14s ease-in-out infinite;
+    }
+    .hero-orb.a {
+      width: 320px; height: 320px; top: -80px; right: 8%;
+      background: var(--purple-deep);
+      animation-delay: 0s;
+    }
+    .hero-orb.b {
+      width: 240px; height: 240px; bottom: -40px; left: 5%;
+      background: var(--blue-deep);
+      animation-delay: -5s;
+      animation-duration: 18s;
+    }
+    .hero-orb.c {
+      width: 160px; height: 160px; top: 40%; left: 45%;
+      background: var(--purple);
+      opacity: 0.25;
+      animation-delay: -9s;
+      animation-duration: 12s;
+    }
+    @keyframes floatOrb {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(18px, -24px) scale(1.05); }
+      66% { transform: translate(-14px, 12px) scale(0.96); }
+    }
+    .fade-up {
+      opacity: 0;
+      transform: translateY(22px);
+      animation: fadeUp 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    .fade-up.d1 { animation-delay: 0.08s; }
+    .fade-up.d2 { animation-delay: 0.2s; }
+    .fade-up.d3 { animation-delay: 0.34s; }
+    .fade-up.d4 { animation-delay: 0.48s; }
+    .fade-up.d5 { animation-delay: 0.62s; }
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero-anim h1 {
+      background-size: 200% auto;
+    }
+    .grad-shift {
+      background: linear-gradient(110deg, var(--purple), var(--blue), var(--purple));
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: gradShift 6s ease-in-out infinite;
+    }
+    @keyframes gradShift {
+      0%, 100% { background-position: 0% center; }
+      50% { background-position: 100% center; }
+    }
+    .pulse-dot {
+      animation: pulseDot 2s ease-in-out infinite;
+    }
+    @keyframes pulseDot {
+      0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--blue) 50%, transparent); }
+      50% { box-shadow: 0 0 0 8px transparent; }
+    }
+    .home-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 36px;
+    }
+    .home-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 22px 20px;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .home-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--line-strong);
+    }
+    .home-card h3 { font-size: 1rem; margin-bottom: 6px; }
+    .home-card p { color: var(--muted); font-size: 13.5px; margin: 0; line-height: 1.55; }
+    .pkg-mini {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .pkg-mini a {
+      display: block;
+      padding: 18px 16px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--line);
+      background: var(--surface);
+      transition: border-color 0.15s, transform 0.15s;
+    }
+    .pkg-mini a:hover { border-color: var(--blue); transform: translateY(-2px); }
+    .pkg-mini .price {
+      font-family: var(--display); font-weight: 800; font-size: 1.15rem;
       background: linear-gradient(110deg, var(--purple), var(--blue));
       -webkit-background-clip: text; background-clip: text; color: transparent;
     }
-    .pkg-card h3 { margin: 0; font-size: 1.1rem; }
-    .pkg-card p { color: var(--muted); font-size: 14px; line-height: 1.6; margin: 0; }
-    .pkg-card ul { margin: 4px 0 0 18px; color: var(--muted); font-size: 14px; line-height: 1.55; }
-    .pkg-card ul li { margin-bottom: 6px; }
-    .pkg-note { margin-top: 18px; color: var(--muted); font-size: 14px; max-width: 48em; }
+    .pkg-mini .name { font-weight: 600; font-size: 14px; margin-top: 4px; }
+    .pkg-mini .hint { font-size: 12px; color: var(--muted); margin-top: 6px; }
+    @media (max-width: 900px) {
+      .home-cards { grid-template-columns: 1fr; }
+      .pkg-mini { grid-template-columns: 1fr 1fr; }
+      .hero-anim { padding: 64px 0 48px; }
+    }
+    @media (max-width: 520px) {
+      .pkg-mini { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .fade-up { opacity: 1; transform: none; animation: none; }
+      .hero-orb, .grad-shift, .pulse-dot { animation: none; }
+    }
   </style>
 </head>
 <body>
@@ -36,37 +144,39 @@
         <span class="sub">SERVICES</span>
       </a>
       <nav class="nav" aria-label="Primary">
-        <a href="services.html">Services</a>
+        <a href="services.html">Services & Plans</a>
         <a href="access.html">Access</a>
         <a href="instructions.html">Instructions</a>
-        <a href="about.html">About</a>
+        <a href="support.html">Support</a>
       </nav>
       <div class="header-actions">
-        <button type="button" class="theme-btn" id="themeToggle" aria-label="Toggle theme" title="Theme">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 14.5A8.5 8.5 0 1 1 9.5 3 7 7 0 0 0 21 14.5z"/></svg>
-        </button>
+        <button type="button" class="theme-btn" id="themeToggle" aria-label="Choose theme" title="Themes"></button>
         <button class="menu-btn" id="menuBtn" type="button" aria-label="Menu" aria-expanded="false"><i aria-hidden="true"></i></button>
       </div>
     </div>
   </header>
   <nav class="nav-drawer" aria-label="Mobile">
-    <a href="services.html">Services</a>
+    <a href="services.html">Services & Plans</a>
     <a href="access.html">Access</a>
     <a href="instructions.html">Instructions</a>
+    <a href="support.html">Support</a>
     <a href="about.html">About</a>
-    <button type="button" id="themeToggleDrawer" class="drawer-theme-btn">☾ Dark mode (tap for light)</button>
+    <button type="button" id="themeToggleDrawer" class="drawer-theme-btn">Theme</button>
   </nav>
   <main>
-    <section class="hero">
-      <div class="wrap">
-        <div class="hero-eyebrow"><span class="dot"></span> Privately operated · Access for approved individuals only</div>
-        <h1>Your private<br>media <span class="grad">universe.</span></h1>
-        <p class="lead">A closed media library for approved people only — stream in the browser or apps, protected by Cloudflare Access, with optional request quotas by package.</p>
-        <div class="hero-actions">
+    <section class="hero-anim">
+      <div class="hero-orb a" aria-hidden="true"></div>
+      <div class="hero-orb b" aria-hidden="true"></div>
+      <div class="hero-orb c" aria-hidden="true"></div>
+      <div class="wrap" style="position:relative;z-index:1">
+        <div class="hero-eyebrow fade-up d1"><span class="dot pulse-dot"></span> Privately operated · Access for approved individuals only</div>
+        <h1 class="fade-up d2">Your private<br>media <span class="grad-shift">universe.</span></h1>
+        <p class="lead fade-up d3">A closed media library for approved people only — stream in the browser or apps, protected by Cloudflare Access, with optional request quotas by package.</p>
+        <div class="hero-actions fade-up d4">
           <a class="btn btn-primary" href="access.html">Request Media Access →</a>
-          <a class="btn btn-ghost" href="instructions.html">Setup instructions →</a>
+          <a class="btn btn-ghost" href="services.html">Services & Plans →</a>
         </div>
-        <div class="hero-meta">
+        <div class="hero-meta fade-up d5">
           <div><strong>Jellyfin</strong><span>Private library</span></div>
           <div><strong>Cloudflare Access</strong><span>Identity at the edge</span></div>
           <div><strong>Manual review</strong><span>No open signup</span></div>
@@ -74,58 +184,57 @@
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" style="padding-top:8px">
       <div class="wrap">
-        <div class="kicker">Packages</div>
-        <h2>What each tier<br><span class="grad">allows.</span></h2>
-        <p class="lead">Every approved account can stream titles already in the library. Higher tiers add a monthly request quota — shows and movies we review and add to the shared library when capacity allows.</p>
-        <div class="pkg-grid">
-          <article class="pkg-card">
-            <div class="price">Free</div>
-            <h3>Standard</h3>
-            <p>Best if you only want to watch what is already available.</p>
-            <ul>
-              <li>Full browse and playback of existing libraries</li>
-              <li>Browser access after Cloudflare Access</li>
-              <li>Optional WARP / Cloudflare One for mobile</li>
-              <li><strong>No media requests</strong> — view-only</li>
-            </ul>
+        <div class="kicker">What you get</div>
+        <h2>Built for private<br><span class="grad">streaming.</span></h2>
+        <div class="home-cards">
+          <article class="home-card">
+            <h3>Shared library</h3>
+            <p>Browse and play titles already on the platform. Higher tiers can request additions that join the shared collection after review.</p>
           </article>
-          <article class="pkg-card">
-            <div class="price">$10</div>
-            <h3>Donor</h3>
-            <p>Light request quota for occasional new titles.</p>
-            <ul>
-              <li>Everything in Free</li>
-              <li>Up to <strong>1 show</strong> and <strong>3 movies</strong> per month</li>
-              <li>Requests go into the shared library after review</li>
-              <li>Queue time varies with volume</li>
-            </ul>
+          <article class="home-card">
+            <h3>Edge identity</h3>
+            <p>Cloudflare Access gates every session. Only approved emails get through — before Jellyfin even loads.</p>
           </article>
-          <article class="pkg-card">
-            <div class="price">$15</div>
-            <h3>Super Donor</h3>
-            <p>More headroom if you request regularly.</p>
-            <ul>
-              <li>Everything in Free</li>
-              <li>Up to <strong>3 shows</strong> and <strong>10 movies</strong> per month</li>
-              <li>Same review and shared-library model as Donor</li>
-              <li>Queue time varies with volume</li>
-            </ul>
-          </article>
-          <article class="pkg-card">
-            <div class="price">$20</div>
-            <h3>Mega Donor</h3>
-            <p>Highest published request quota.</p>
-            <ul>
-              <li>Everything in Free</li>
-              <li>Up to <strong>5 shows</strong> and <strong>20 movies</strong> per month</li>
-              <li>Still subject to review — not unlimited personal downloads</li>
-              <li>Queue time varies with volume</li>
-            </ul>
+          <article class="home-card">
+            <h3>Mobile ready</h3>
+            <p>Optional Cloudflare One (WARP) for phones and locked-down networks. Setup is covered in Instructions.</p>
           </article>
         </div>
-        <p class="pkg-note">Choose your package on the <a class="link" href="access.html">Access</a> form. How to connect after approval is on <a class="link" href="instructions.html">Instructions</a>. Stack details (Jellyfin, Access, WARP) are on <a class="link" href="services.html">Services</a>.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="kicker">Plans at a glance</div>
+        <h2>Pick a tier that<br><span class="grad">fits.</span></h2>
+        <p class="lead">Full plan details and stack explanations live on Services & Plans. Choose your package when you request access.</p>
+        <div class="pkg-mini">
+          <a href="services.html#plans">
+            <div class="price">Free</div>
+            <div class="name">Standard</div>
+            <div class="hint">View existing library</div>
+          </a>
+          <a href="services.html#plans">
+            <div class="price">$10</div>
+            <div class="name">Donor</div>
+            <div class="hint">1 show · 3 movies / mo</div>
+          </a>
+          <a href="services.html#plans">
+            <div class="price">$15</div>
+            <div class="name">Super Donor</div>
+            <div class="hint">3 shows · 10 movies / mo</div>
+          </a>
+          <a href="services.html#plans">
+            <div class="price">$20</div>
+            <div class="name">Mega Donor</div>
+            <div class="hint">5 shows · 20 movies / mo</div>
+          </a>
+        </div>
+        <p style="margin-top:20px">
+          <a class="btn btn-ghost" href="services.html">Full Services & Plans →</a>
+        </p>
       </div>
     </section>
 
@@ -134,11 +243,11 @@
         <div>
           <div class="kicker">Get started</div>
           <h2>Want access?</h2>
-          <p class="lead">Submit a short request when applications are open. If approved, you receive credentials by email.</p>
+          <p class="lead">Submit a short request. If approved, you receive credentials by email.</p>
         </div>
         <div style="display:flex;flex-wrap:wrap;gap:12px">
           <a class="btn btn-primary" href="access.html">Request Access →</a>
-          <a class="btn btn-ghost" href="services.html">How the stack works →</a>
+          <a class="btn btn-ghost" href="support.html">Support Center →</a>
         </div>
       </div>
     </section>
@@ -151,7 +260,7 @@
           <a href="legal.html">Legal</a>
           <a href="about.html">About</a>
           <a href="privacy.html">Privacy</a>
-          <a href="about.html#contact">Contact</a>
+          <a href="support.html">Support</a>
         </div>
       </div>
       <div class="footer-bottom">
