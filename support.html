@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#030712">
+  <title>Support Center · Nebula Services</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .support-layout {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 40px;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .support-layout { grid-template-columns: 1fr; gap: 32px; }
+    }
+    .faq-item {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface);
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+    .faq-item summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 16px 18px;
+      font-weight: 600;
+      font-size: 14.5px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after {
+      content: '+';
+      font-size: 18px;
+      color: var(--muted-2);
+      font-weight: 500;
+    }
+    .faq-item[open] summary::after { content: '−'; }
+    .faq-item .faq-body {
+      padding: 0 18px 16px;
+      color: var(--muted);
+      font-size: 14.5px;
+      line-height: 1.65;
+    }
+    .faq-item .faq-body p { margin-bottom: 10px; }
+    .faq-item .faq-body p:last-child { margin-bottom: 0; }
+    .req { color: #f87171; margin-left: 3px; font-weight: 700; }
+    .field-error {
+      display: none;
+      margin-top: 8px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #fecaca;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+    }
+    .field-error.show { display: block; }
+    .form-group input.is-invalid,
+    .form-group textarea.is-invalid,
+    .form-group select.is-invalid {
+      border-color: #ef4444;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.18);
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-layer" aria-hidden="true"></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html">
+        <span class="logo" aria-hidden="true"></span>
+        <span class="word">NEBULA</span>
+        <span class="sub">SERVICES</span>
+      </a>
+      <nav class="nav" aria-label="Primary">
+        <a href="services.html">Services & Plans</a>
+        <a href="access.html">Access</a>
+        <a href="instructions.html">Instructions</a>
+        <a href="support.html" class="is-active">Support</a>
+      </nav>
+      <div class="header-actions">
+        <button type="button" class="theme-btn" id="themeToggle" aria-label="Choose theme" title="Themes"></button>
+        <button class="menu-btn" id="menuBtn" type="button" aria-label="Menu" aria-expanded="false"><i aria-hidden="true"></i></button>
+      </div>
+    </div>
+  </header>
+  <nav class="nav-drawer" aria-label="Mobile">
+    <a href="services.html">Services & Plans</a>
+    <a href="access.html">Access</a>
+    <a href="instructions.html">Instructions</a>
+    <a href="support.html" class="is-active">Support</a>
+    <a href="about.html">About</a>
+    <button type="button" id="themeToggleDrawer" class="drawer-theme-btn">Theme</button>
+  </nav>
+  <main>
+    <section class="page-hero">
+      <div class="wrap">
+        <div class="kicker">Support Center</div>
+        <h1>Help, FAQs, and<br><span class="grad">contact.</span></h1>
+        <p class="lead">Answers to common questions. For account or technical issues, use the support form — this is not the media access application.</p>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:8px">
+      <div class="wrap">
+        <div class="support-layout">
+          <div>
+            <div class="kicker">FAQs</div>
+            <h2 style="margin-bottom:18px">Frequently asked</h2>
+
+            <details class="faq-item" open>
+              <summary>How do I request media library access?</summary>
+              <div class="faq-body">
+                <p>Use the <a class="link" href="access.html">Access</a> page and submit the access request form with your preferred package. That form is only for new library applications — not general support.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>How long does approval take?</summary>
+              <div class="faq-body">
+                <p>Reviews are manual. Incomplete or low-effort requests may be declined without follow-up. If approved, you receive credentials by email.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>I was approved but Cloudflare Access denies me</summary>
+              <div class="faq-body">
+                <p>Sign in with the <strong>exact email</strong> listed in your approval letter. A different inbox will fail even if the Jellyfin password is correct. Wait a few minutes after approval if the allow list has not updated yet.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>Jellyfin login fails after Access succeeds</summary>
+              <div class="faq-body">
+                <p>Use the username and password from the approval email. If approval was very recent, wait 5–10 minutes and try again. Still stuck? Send a support message with the email you used (not your password).</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>What is WARP / Cloudflare One for?</summary>
+              <div class="faq-body">
+                <p>Optional on desktop; useful on mobile or restricted networks. Join organization <span style="font-family:ui-monospace,monospace;font-size:13px">nebulaservices</span> with your approved email. Full steps are on <a class="link" href="instructions.html">Instructions</a>.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>What do the paid plans change?</summary>
+              <div class="faq-body">
+                <p>All approved accounts can stream existing library titles. Paid tiers add a monthly request quota for shows/movies that may be added to the <strong>shared</strong> library after review. See <a class="link" href="services.html#plans">Services & Plans</a>.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>Can I share my account?</summary>
+              <div class="faq-body">
+                <p>No. Credential sharing is grounds for termination. We have methods in place to detect it. See <a class="link" href="legal.html">Legal</a>.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>How do I change my plan or password?</summary>
+              <div class="faq-body">
+                <p>Email admin or use the support form below. Include the email on your account and what you need changed. Do not send passwords in plain chat outside official channels.</p>
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>Where is system status?</summary>
+              <div class="faq-body">
+                <p>Check the <a class="link" href="status.html">Status</a> page for live platform health when available.</p>
+              </div>
+            </details>
+          </div>
+
+          <div>
+            <div class="form-card" style="max-width:none;position:sticky;top:88px">
+              <div class="kicker" style="margin-bottom:8px">Contact</div>
+              <h2 style="font-size:1.25rem;margin-bottom:6px">Support form</h2>
+              <p style="color:var(--muted);font-size:14px;margin-bottom:18px">General help only. For <strong>new media access</strong>, use the <a class="link" href="access.html">Access</a> application instead.</p>
+              <div id="formSuccess" class="form-success" role="status"></div>
+              <form id="supportForm" action="https://formsubmit.co/admin@nebulaservices.live" method="POST" novalidate>
+                <input type="hidden" name="_subject" value="Support Center — Nebula Services">
+                <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_next" value="https://nebulaservices.live/support.html?sent=1">
+                <input type="hidden" name="form_type" value="support">
+
+                <div class="form-group">
+                  <label for="sup-name">Name <span class="req" aria-hidden="true">*</span></label>
+                  <input type="text" id="sup-name" name="name" required aria-required="true">
+                  <div class="field-error" data-for="sup-name">This is a required field</div>
+                </div>
+                <div class="form-group">
+                  <label for="sup-email">Email <span class="req" aria-hidden="true">*</span></label>
+                  <input type="email" id="sup-email" name="email" required aria-required="true">
+                  <div class="field-error" data-for="sup-email">This is a required field</div>
+                </div>
+                <div class="form-group">
+                  <label for="sup-topic">Topic <span class="req" aria-hidden="true">*</span></label>
+                  <select id="sup-topic" name="topic" required aria-required="true">
+                    <option value="" disabled selected>Select a topic…</option>
+                    <option value="Login / Access issue">Login / Access issue</option>
+                    <option value="Jellyfin playback">Jellyfin playback</option>
+                    <option value="WARP / Cloudflare One">WARP / Cloudflare One</option>
+                    <option value="Plan or account change">Plan or account change</option>
+                    <option value="Billing / donation">Billing / donation</option>
+                    <option value="Privacy request">Privacy request</option>
+                    <option value="Other">Other</option>
+                  </select>
+                  <div class="field-error" data-for="sup-topic">This is a required field</div>
+                </div>
+                <div class="form-group">
+                  <label for="sup-msg">Message <span class="req" aria-hidden="true">*</span></label>
+                  <textarea id="sup-msg" name="message" required aria-required="true" placeholder="Describe the issue. Do not include passwords."></textarea>
+                  <div class="field-error" data-for="sup-msg">This is a required field</div>
+                </div>
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-primary">Send support message →</button>
+                </div>
+              </form>
+              <p style="margin-top:14px;font-size:13px;color:var(--muted-2)">Or email <a class="link" href="mailto:admin@nebulaservices.live">admin@nebulaservices.live</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-top">
+        <a class="brand" href="index.html"><span class="logo" aria-hidden="true"></span><span class="word">NEBULA</span><span class="sub">SERVICES</span></a>
+        <div class="footer-links">
+          <a href="legal.html">Legal</a>
+          <a href="about.html">About</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="support.html">Support</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Nebula Services</span>
+        <span>Private · Access for approved individuals only</span>
+        <a href="privacy.html">Privacy Policy →</a>
+      </div>
+    </div>
+  </footer>
+  <script src="script.js"></script>
+  <script>
+    (function () {
+      var form = document.getElementById('supportForm');
+      if (!form) return;
+      var ids = ['sup-name', 'sup-email', 'sup-topic', 'sup-msg'];
+
+      function clearError(el) {
+        el.classList.remove('is-invalid');
+        var err = form.querySelector('.field-error[data-for="' + el.id + '"]');
+        if (err) err.classList.remove('show');
+      }
+      function showError(el, msg) {
+        el.classList.add('is-invalid');
+        var err = form.querySelector('.field-error[data-for="' + el.id + '"]');
+        if (err) {
+          err.textContent = msg || 'This is a required field';
+          err.classList.add('show');
+        }
+      }
+      function empty(el) { return !(el.value || '').trim(); }
+
+      ids.forEach(function (id) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener('input', function () { clearError(el); });
+        el.addEventListener('change', function () { clearError(el); });
+      });
+
+      form.addEventListener('submit', function (e) {
+        var first = null;
+        ids.forEach(function (id) {
+          var el = document.getElementById(id);
+          if (!el) return;
+          if (id === 'sup-email') {
+            var v = (el.value || '').trim();
+            if (!v) { showError(el); if (!first) first = el; }
+            else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) {
+              showError(el, 'Please enter a valid email address');
+              if (!first) first = el;
+            } else clearError(el);
+          } else if (empty(el)) {
+            showError(el);
+            if (!first) first = el;
+          } else clearError(el);
+        });
+        if (first) {
+          e.preventDefault();
+          first.focus();
+          first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      });
+
+      if (window.location.search.indexOf('sent=1') !== -1) {
+        var success = document.getElementById('formSuccess');
+        if (success) {
+          success.classList.add('show');
+          success.textContent = 'Sent. We received your support message and will get back to you as soon as possible.';
+        }
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+      }
+    })();
+  </script>
+</body>
+</html>
