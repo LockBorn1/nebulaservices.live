@@ -7,23 +7,132 @@
   <title>Instructions · Nebula Services</title>
   <link rel="stylesheet" href="styles.css">
   <style>
-    .guide-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 32px 28px; margin-bottom: 20px; }
-    .guide-card h2 { font-size: 1.25rem; margin-bottom: 8px; }
-    .guide-card h3 { font-size: 1.05rem; margin: 22px 0 10px; }
-    .guide-card > p { color: var(--muted); font-size: 14.5px; margin-bottom: 16px; }
-    .guide-card .steps li { margin-bottom: 24px; }
-    .guide-card .steps li p { color: var(--muted); font-size: 14px; margin: 6px 0 0; line-height: 1.65; }
-    .guide-card .steps li ul { margin: 10px 0 0 18px; color: var(--muted); font-size: 14px; }
-    .guide-card .steps li ul li { margin-bottom: 6px; padding-left: 0; }
-    .guide-card .steps li ul li::before { display: none; }
-    .mono { font-family: ui-monospace, monospace; font-size: 13px; background: rgba(0,0,0,0.35); border: 1px solid var(--line-strong); border-radius: 8px; padding: 2px 8px; }
-    .guide-card a.ext { color: var(--blue); font-weight: 600; }
-    .callout { margin: 14px 0 0; padding: 14px 16px; border-radius: 12px; background: rgba(56,189,248,0.08); border: 1px solid rgba(56,189,248,0.25); color: var(--muted); font-size: 13.5px; }
-    .callout strong { color: var(--text); }
-    .quick-links { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 24px; }
-    .quick-links a { display: block; padding: 16px 18px; border-radius: 14px; border: 1px solid var(--line); background: var(--surface); font-weight: 600; font-size: 14px; }
-    .quick-links a span { display: block; font-weight: 500; font-size: 12px; color: var(--muted); margin-top: 4px; }
-    @media (max-width: 720px) { .quick-links { grid-template-columns: 1fr; } }
+    .instr-wrap { max-width: 760px; margin: 0 auto; }
+    .path-tabs {
+      display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 28px;
+    }
+    .path-tabs a {
+      padding: 10px 16px; border-radius: 999px; font-size: 13px; font-weight: 600;
+      border: 1px solid var(--line-strong); color: var(--muted);
+      background: color-mix(in srgb, var(--text) 3%, transparent);
+    }
+    .path-tabs a:hover { color: var(--text); border-color: var(--blue); }
+    .step-block {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      margin-bottom: 16px;
+      backdrop-filter: blur(12px);
+    }
+    .step-block h2 {
+      font-size: 1.2rem;
+      margin-bottom: 6px;
+    }
+    .step-block .intro {
+      color: var(--muted);
+      font-size: 14.5px;
+      margin-bottom: 20px;
+    }
+    .step-list { list-style: none; margin: 0; padding: 0; counter-reset: s; }
+    .step-list > li {
+      counter-increment: s;
+      position: relative;
+      padding: 0 0 22px 52px;
+      border-left: 2px solid var(--line);
+      margin-left: 16px;
+    }
+    .step-list > li:last-child {
+      border-left-color: transparent;
+      padding-bottom: 0;
+    }
+    .step-list > li::before {
+      content: counter(s);
+      position: absolute;
+      left: -18px;
+      top: 0;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--purple-deep), var(--blue-deep));
+      color: #fff;
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 0 4px var(--bg);
+    }
+    .step-list strong {
+      display: block;
+      color: var(--text);
+      font-family: var(--display);
+      font-size: 15px;
+      margin-bottom: 6px;
+      padding-top: 6px;
+    }
+    .step-list p {
+      color: var(--muted);
+      font-size: 14.5px;
+      line-height: 1.65;
+      margin: 0 0 8px;
+    }
+    .step-list ul {
+      margin: 8px 0 0 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .step-list ul li { margin-bottom: 6px; }
+    .mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12.5px;
+      background: color-mix(in srgb, var(--bg) 80%, transparent);
+      border: 1px solid var(--line-strong);
+      border-radius: 8px;
+      padding: 2px 8px;
+      color: var(--text);
+    }
+    .tip {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: color-mix(in srgb, var(--blue) 10%, transparent);
+      border: 1px solid color-mix(in srgb, var(--blue) 28%, transparent);
+      color: var(--muted);
+      font-size: 13.5px;
+    }
+    .tip strong { color: var(--text); }
+    .quick-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+    .quick-row a {
+      display: block;
+      padding: 16px 16px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      font-weight: 600;
+      font-size: 14px;
+      transition: border-color 0.15s, transform 0.15s;
+    }
+    .quick-row a:hover { border-color: var(--blue); transform: translateY(-1px); }
+    .quick-row a span {
+      display: block;
+      font-weight: 500;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    @media (max-width: 640px) {
+      .quick-row { grid-template-columns: 1fr; }
+      .step-block { padding: 22px 16px; }
+      .step-list > li { padding-left: 44px; margin-left: 12px; }
+      .step-list > li::before { left: -15px; width: 30px; height: 30px; font-size: 12px; }
+    }
   </style>
 </head>
 <body>
@@ -38,9 +147,7 @@
         <a href="about.html">About</a>
       </nav>
       <div class="header-actions">
-        <button type="button" class="theme-btn" id="themeToggle" aria-label="Toggle theme" title="Theme">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 14.5A8.5 8.5 0 1 1 9.5 3 7 7 0 0 0 21 14.5z"/></svg>
-        </button>
+        <button type="button" class="theme-btn" id="themeToggle" aria-label="Choose theme" title="Themes"></button>
         <button class="menu-btn" id="menuBtn" type="button" aria-label="Menu" aria-expanded="false"><i aria-hidden="true"></i></button>
       </div>
     </div>
@@ -50,75 +157,128 @@
     <a href="access.html">Access</a>
     <a href="instructions.html" class="is-active">Instructions</a>
     <a href="about.html">About</a>
-    <button type="button" id="themeToggleDrawer" class="drawer-theme-btn">☾ Dark mode (tap for light)</button>
+    <button type="button" id="themeToggleDrawer" class="drawer-theme-btn">Theme</button>
   </nav>
   <main>
     <section class="page-hero">
-      <div class="wrap" style="max-width:920px;margin:0 auto">
+      <div class="wrap instr-wrap">
         <div class="kicker">Instructions</div>
-        <h1>How to connect<br>after <span class="grad">approval.</span></h1>
-        <p class="lead">Setup only — follow these steps after you receive an approval email. Package tiers are on the <a class="link" href="index.html">home page</a>; apply on <a class="link" href="access.html">Access</a>.</p>
+        <h1>Connect after<br><span class="grad">approval.</span></h1>
+        <p class="lead">Follow these steps only after you receive an approval email. Choose browser (desktop) or WARP (mobile / restricted networks).</p>
+        <div class="path-tabs">
+          <a href="#before">Before you start</a>
+          <a href="#browser">Browser setup</a>
+          <a href="#warp">WARP / mobile</a>
+          <a href="#help">Need help?</a>
+        </div>
       </div>
     </section>
-    <section class="section" style="padding-top:8px">
-      <div class="wrap" style="max-width:920px;margin:0 auto">
-        <div class="quick-links">
-          <a href="https://jellyfin.nebulaservices.live" target="_blank" rel="noopener">Open Jellyfin<span>Library · browser</span></a>
+
+    <section class="section" style="padding-top:0">
+      <div class="wrap instr-wrap">
+        <div class="quick-row">
+          <a href="https://jellyfin.nebulaservices.live" target="_blank" rel="noopener">Open Jellyfin<span>Library in browser</span></a>
           <a href="status.html">System status<span>Live platform health</span></a>
           <a href="access.html">Request access<span>Submit a package request</span></a>
-          <a href="mailto:milnerg-admin@nebulaservices.live">Email admin<span>Questions & issues</span></a>
+          <a href="mailto:admin@nebulaservices.live">Email admin<span>Questions & issues</span></a>
         </div>
 
-        <div class="guide-card">
+        <div class="step-block" id="before">
           <h2>Before you start</h2>
-          <p>From your approval email you need: the approved email address, Jellyfin username, and Jellyfin password.</p>
-          <div class="callout"><strong>Tip:</strong> Use a desktop browser first. Add WARP later for mobile or restricted networks.</div>
+          <p class="intro">Have your approval email open. You will need three things from it.</p>
+          <ol class="step-list">
+            <li>
+              <strong>Confirm you have approval</strong>
+              <p>You should have an email with your approved address, Jellyfin username, and Jellyfin password. If you do not, wait for review or check spam.</p>
+            </li>
+            <li>
+              <strong>Use the exact approved email</strong>
+              <p>Cloudflare Access only accepts the email we approved. A different inbox will be denied even if the Jellyfin password is correct.</p>
+            </li>
+            <li>
+              <strong>Prefer desktop first</strong>
+              <p>Complete browser login on a computer once. Then set up WARP on your phone if you need mobile access.</p>
+              <div class="tip"><strong>Tip:</strong> Bookmark <span class="mono">jellyfin.nebulaservices.live</span> after it loads successfully.</div>
+            </li>
+          </ol>
         </div>
 
-        <div class="guide-card">
+        <div class="step-block" id="browser">
           <h2>Method A — Browser (desktop / laptop)</h2>
-          <ol class="steps">
+          <p class="intro">Fastest path. Works in Chrome, Edge, Firefox, or Safari.</p>
+          <ol class="step-list">
             <li>
               <strong>Open the library URL</strong>
-              <p>In Chrome, Edge, Firefox, or Safari go to <a class="ext" href="https://jellyfin.nebulaservices.live" target="_blank" rel="noopener">https://jellyfin.nebulaservices.live</a>. Use HTTPS only. Bookmark the hostname after it loads.</p>
+              <p>Go to <a class="link" href="https://jellyfin.nebulaservices.live" target="_blank" rel="noopener">https://jellyfin.nebulaservices.live</a>. Use HTTPS only.</p>
             </li>
             <li>
               <strong>Complete Cloudflare Access</strong>
-              <p>Sign in with the <strong>exact email</strong> we approved. Enter the one-time code Cloudflare sends. Jellyfin will not load until this succeeds.</p>
-              <div class="callout"><strong>Stuck?</strong> Wrong email is the most common issue. It must match the approval letter.</div>
+              <p>Sign in with the <strong>exact email</strong> from your approval letter. Enter the one-time code Cloudflare sends to that inbox.</p>
+              <div class="tip"><strong>Stuck here?</strong> Wrong email is the most common issue. It must match the approval letter character for character.</div>
             </li>
             <li>
               <strong>Sign in to Jellyfin</strong>
-              <p>Use the username and password from the approval email. If approval was only minutes ago and login fails, wait 5–10 minutes and try again.</p>
+              <p>Enter the username and password from the approval email. If approval was only a few minutes ago and login fails, wait 5–10 minutes and try again.</p>
             </li>
             <li>
-              <strong>Playback</strong>
+              <strong>Play media</strong>
               <p>Prefer Direct Play when available. If buffering, lower quality in the player. Report broken titles by email — never post credentials publicly.</p>
             </li>
           </ol>
         </div>
 
-        <div class="guide-card">
+        <div class="step-block" id="warp">
           <h2>Method B — Mobile & Cloudflare One (WARP)</h2>
-          <h3>Install</h3>
-          <ol class="steps">
-            <li><strong>Install official WARP / Cloudflare One</strong><p>From the App Store, Play Store, or Cloudflare’s official desktop download only.</p></li>
-          </ol>
-          <h3>Join the organization</h3>
-          <ol class="steps">
-            <li><strong>Team / organization login</strong><p>Enter organization name exactly: <span class="mono">nebulaservices</span></p></li>
-            <li><strong>Authenticate</strong><p>Use the same approved email. Toggle the connection <strong>On</strong> and leave it on while streaming.</p></li>
-          </ol>
-          <h3>Open Jellyfin</h3>
-          <ol class="steps">
-            <li><strong>Browser or app</strong><p>With WARP connected, open <span class="mono">https://jellyfin.nebulaservices.live</span>, pass Access, then sign in with your library credentials. In the Jellyfin app, add that same server URL.</p></li>
-            <li><strong>If it fails</strong><p>Confirm WARP is connected to <span class="mono">nebulaservices</span>, Access used the approved email, and the password matches the letter. Then email the admin with your device type and which step fails.</p></li>
+          <p class="intro">Use this on phones or networks that block the library. Keep WARP connected while streaming.</p>
+          <ol class="step-list">
+            <li>
+              <strong>Install official WARP</strong>
+              <p>Install Cloudflare WARP / Cloudflare One from the App Store, Google Play, or Cloudflare’s official desktop download only.</p>
+            </li>
+            <li>
+              <strong>Join the organization</strong>
+              <p>In WARP, choose organization / team login and enter exactly:</p>
+              <p><span class="mono">nebulaservices</span></p>
+            </li>
+            <li>
+              <strong>Authenticate</strong>
+              <p>Sign in with the same approved email. Toggle the connection <strong>On</strong> and leave it on while you stream.</p>
+            </li>
+            <li>
+              <strong>Open Jellyfin</strong>
+              <p>With WARP connected, open <span class="mono">https://jellyfin.nebulaservices.live</span>, complete Access, then sign in with your library credentials.</p>
+              <p>In the Jellyfin app, add that same server URL as a custom server.</p>
+            </li>
+            <li>
+              <strong>If it still fails</strong>
+              <ul>
+                <li>Confirm WARP shows connected to <span class="mono">nebulaservices</span></li>
+                <li>Confirm Access used the approved email</li>
+                <li>Confirm password matches the approval letter</li>
+                <li>Email admin with device type and which step fails</li>
+              </ul>
+            </li>
           </ol>
         </div>
 
-        <div class="note">
-          <strong>Do not share credentials.</strong> Sharing is grounds for termination. We have methods in place to detect it.
-          Admin: <a class="link" href="mailto:milnerg-admin@nebulaservices.live">milnerg-admin@nebulaservices.live</a>
+        <div class="step-block" id="help">
+          <h2>Need help?</h2>
+          <p class="intro">Account and access support goes through the admin address only.</p>
+          <ol class="step-list">
+            <li>
+              <strong>Contact admin</strong>
+              <p><a class="link" href="mailto:admin@nebulaservices.live">admin@nebulaservices.live</a></p>
+              <p>Include: the email you used for Access, device type, and the step that failed (Access, Jellyfin login, or playback).</p>
+            </li>
+            <li>
+              <strong>Do not share credentials</strong>
+              <p>Sharing accounts or access is grounds for termination. We have methods in place to detect it.</p>
+            </li>
+          </ol>
+        </div>
+
+        <div class="note" style="margin-top:8px">
+          <strong>Reminder:</strong> Package tiers are on the <a class="link" href="index.html">home page</a>. New requests go to <a class="link" href="access.html">Access</a>. Live health is on <a class="link" href="status.html">Status</a>.
         </div>
       </div>
     </section>
