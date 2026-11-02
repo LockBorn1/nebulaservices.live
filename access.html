@@ -16,6 +16,25 @@
       background: #f7931a; display: inline-flex; align-items: center; justify-content: center;
     }
     .btc-addr { font-family: ui-monospace, monospace; font-size: 13px; word-break: break-all; color: var(--text); background: rgba(0,0,0,0.35); border: 1px solid var(--line-strong); border-radius: 10px; padding: 12px 14px; margin-top: 10px; }
+    .req { color: #f87171; margin-left: 3px; font-weight: 700; }
+    .field-error {
+      display: none;
+      margin-top: 8px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #fecaca;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+    }
+    .field-error.show { display: block; }
+    .form-group input.is-invalid,
+    .form-group textarea.is-invalid,
+    .form-group select.is-invalid {
+      border-color: #ef4444;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.18);
+    }
   </style>
 </head>
 <body>
@@ -61,28 +80,65 @@
         <div class="access-layout">
           <div class="form-card" id="accessFormCard">
             <div id="formSuccess" class="form-success" role="status"></div>
-            <form id="accessForm" action="https://formsubmit.co/admin@nebulaservices.live" method="POST">
+            <form id="accessForm" action="https://formsubmit.co/admin@nebulaservices.live" method="POST" novalidate>
               <input type="hidden" name="_subject" value="Access Request — Nebula Services">
               <input type="hidden" name="_template" value="table">
               <input type="hidden" name="_captcha" value="false">
               <input type="hidden" name="_next" value="https://nebulaservices.live/access.html?sent=1">
-              <div class="form-group"><label for="req-name">Full name</label><input type="text" id="req-name" name="name" required></div>
-              <div class="form-group"><label for="req-email">Email</label><input type="email" id="req-email" name="email" required></div>
-              <div class="form-group"><label for="req-jf-user">Preferred Jellyfin username</label><input type="text" id="req-jf-user" name="jellyfin_username" required></div>
-              <div class="form-group"><label for="req-jf-pass">Preferred Jellyfin password</label><input type="text" id="req-jf-pass" name="jellyfin_password_preference" required></div>
+
               <div class="form-group">
-                <label for="req-reason">Choose your package</label>
-                <select id="req-reason" name="package" required>
+                <label for="req-name">Full name <span class="req" aria-hidden="true">*</span></label>
+                <input type="text" id="req-name" name="name" required aria-required="true">
+                <div class="field-error" data-for="req-name">This is a required field</div>
+              </div>
+
+              <div class="form-group">
+                <label for="req-email">Email <span class="req" aria-hidden="true">*</span></label>
+                <input type="email" id="req-email" name="email" required aria-required="true">
+                <div class="field-error" data-for="req-email">This is a required field</div>
+              </div>
+
+              <div class="form-group">
+                <label for="req-jf-user">Preferred Jellyfin username <span class="req" aria-hidden="true">*</span></label>
+                <input type="text" id="req-jf-user" name="jellyfin_username" required aria-required="true">
+                <div class="field-error" data-for="req-jf-user">This is a required field</div>
+              </div>
+
+              <div class="form-group">
+                <label for="req-jf-pass">Preferred Jellyfin password <span class="req" aria-hidden="true">*</span></label>
+                <input type="text" id="req-jf-pass" name="jellyfin_password_preference" required aria-required="true">
+                <div class="field-error" data-for="req-jf-pass">This is a required field</div>
+              </div>
+
+              <div class="form-group">
+                <label for="req-reason">Choose your package <span class="req" aria-hidden="true">*</span></label>
+                <select id="req-reason" name="package" required aria-required="true">
                   <option value="" disabled selected>Select a package…</option>
                   <option value="Private Media Free (Standard)">Private Media Free (Standard)</option>
                   <option value="Private Media Donor ($10)">Private Media Donor ($10)</option>
                   <option value="Private Media Super Donor ($15)">Private Media Super Donor ($15)</option>
                   <option value="Private Media Mega Donor ($20)">Private Media Mega Donor ($20)</option>
                 </select>
+                <div class="field-error" data-for="req-reason">This is a required field</div>
               </div>
-              <div class="form-group"><label for="req-interest">Why are you interested?</label><textarea id="req-interest" name="interest_reason" required></textarea></div>
-              <div class="form-group"><label for="req-use">Intended use</label><textarea id="req-use" name="intended_use" required></textarea></div>
-              <div class="form-group"><label for="req-notes">Notes (optional)</label><textarea id="req-notes" name="notes"></textarea></div>
+
+              <div class="form-group">
+                <label for="req-interest">Why are you interested? <span class="req" aria-hidden="true">*</span></label>
+                <textarea id="req-interest" name="interest_reason" required aria-required="true"></textarea>
+                <div class="field-error" data-for="req-interest">This is a required field</div>
+              </div>
+
+              <div class="form-group">
+                <label for="req-use">Intended use <span class="req" aria-hidden="true">*</span></label>
+                <textarea id="req-use" name="intended_use" required aria-required="true"></textarea>
+                <div class="field-error" data-for="req-use">This is a required field</div>
+              </div>
+
+              <div class="form-group">
+                <label for="req-notes">Notes <span style="color:var(--muted);font-weight:500">(optional)</span></label>
+                <textarea id="req-notes" name="notes"></textarea>
+              </div>
+
               <div class="form-actions"><button type="submit" class="btn btn-primary">Submit request →</button></div>
             </form>
           </div>
@@ -127,5 +183,93 @@
     </div>
   </footer>
   <script src="script.js"></script>
+  <script>
+    (function () {
+      var form = document.getElementById('accessForm');
+      if (!form) return;
+
+      var requiredIds = ['req-name', 'req-email', 'req-jf-user', 'req-jf-pass', 'req-reason', 'req-interest', 'req-use'];
+
+      function clearError(el) {
+        if (!el) return;
+        el.classList.remove('is-invalid');
+        var err = form.querySelector('.field-error[data-for="' + el.id + '"]');
+        if (err) err.classList.remove('show');
+      }
+
+      function showError(el, message) {
+        if (!el) return;
+        el.classList.add('is-invalid');
+        var err = form.querySelector('.field-error[data-for="' + el.id + '"]');
+        if (err) {
+          if (message) err.textContent = message;
+          else err.textContent = 'This is a required field';
+          err.classList.add('show');
+        }
+      }
+
+      function isEmpty(el) {
+        if (!el) return true;
+        var v = (el.value || '').trim();
+        return v === '';
+      }
+
+      function validateEmail(el) {
+        var v = (el.value || '').trim();
+        if (!v) return 'This is a required field';
+        // basic email check
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return 'Please enter a valid email address';
+        return null;
+      }
+
+      requiredIds.forEach(function (id) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener('input', function () { clearError(el); });
+        el.addEventListener('change', function () { clearError(el); });
+        el.addEventListener('blur', function () {
+          if (id === 'req-email') {
+            var msg = validateEmail(el);
+            if (msg) showError(el, msg);
+            else clearError(el);
+          } else if (isEmpty(el)) {
+            showError(el);
+          } else {
+            clearError(el);
+          }
+        });
+      });
+
+      form.addEventListener('submit', function (e) {
+        var firstInvalid = null;
+
+        requiredIds.forEach(function (id) {
+          var el = document.getElementById(id);
+          if (!el) return;
+
+          if (id === 'req-email') {
+            var msg = validateEmail(el);
+            if (msg) {
+              showError(el, msg);
+              if (!firstInvalid) firstInvalid = el;
+            } else {
+              clearError(el);
+            }
+          } else if (isEmpty(el)) {
+            showError(el);
+            if (!firstInvalid) firstInvalid = el;
+          } else {
+            clearError(el);
+          }
+        });
+
+        if (firstInvalid) {
+          e.preventDefault();
+          firstInvalid.focus();
+          firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
