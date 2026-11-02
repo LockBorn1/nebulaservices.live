@@ -102,7 +102,7 @@
       var success = document.getElementById('formSuccess');
       if (success) {
         success.classList.add('show');
-        success.textContent = 'Request sent. Check your inbox for a confirmation from FormSubmit the first time — after that, requests go straight to milnerg-admin@nebulaservices.live.';
+        success.textContent = 'Sent. We have received your form and will review your application and get back to you as soon as possible.';
       }
       if (window.history && window.history.replaceState) {
         window.history.replaceState({}, document.title, window.location.pathname);
