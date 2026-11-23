@@ -14,6 +14,7 @@
     .btc-logo {
       width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
       background: #f7931a; display: inline-flex; align-items: center; justify-content: center;
+      font-weight: 700; color: #fff;
     }
     .btc-addr { font-family: ui-monospace, monospace; font-size: 13px; word-break: break-all; color: var(--text); background: rgba(0,0,0,0.35); border: 1px solid var(--line-strong); border-radius: 10px; padding: 12px 14px; margin-top: 10px; }
     .req { color: #f87171; margin-left: 3px; font-weight: 700; }
@@ -64,6 +65,7 @@
     <a href="instructions.html">Instructions</a>
     <a href="support.html">Support</a>
     <a href="about.html">About</a>
+    <a href="status.html">Status</a>
     <button type="button" id="themeToggleDrawer" class="drawer-theme-btn">Theme</button>
   </nav>
   <main>
@@ -124,13 +126,13 @@
 
               <div class="form-group">
                 <label for="req-interest">Why are you interested? <span class="req" aria-hidden="true">*</span></label>
-                <textarea id="req-interest" name="interest_reason" required aria-required="true"></textarea>
+                <textarea id="req-interest" name="interest_reason" required aria-required="true" placeholder="A short, honest reason helps review."></textarea>
                 <div class="field-error" data-for="req-interest">This is a required field</div>
               </div>
 
               <div class="form-group">
                 <label for="req-use">Intended use <span class="req" aria-hidden="true">*</span></label>
-                <textarea id="req-use" name="intended_use" required aria-required="true"></textarea>
+                <textarea id="req-use" name="intended_use" required aria-required="true" placeholder="How you plan to use the library."></textarea>
                 <div class="field-error" data-for="req-use">This is a required field</div>
               </div>
 
@@ -146,7 +148,7 @@
             <div class="access-box">
               <h2 style="font-size:1.25rem;margin-bottom:8px">What happens next</h2>
               <ol class="steps">
-                <li><strong>Submit</strong> the form with your package, preferred Jellyfin username/password, and a short reason for access.</li>
+                <li><strong>Submit</strong> the form with your package, preferred Jellyfin username/password, and a short reason.</li>
                 <li><strong>Manual review</strong> by the CIO. Incomplete or low-effort requests may be declined without follow-up.</li>
                 <li><strong>Approval email</strong> with library credentials if approved. Then follow <a href="instructions.html">Instructions</a> for browser and Cloudflare One setup.</li>
               </ol>
@@ -169,6 +171,7 @@
       <div class="footer-top">
         <a class="brand" href="index.html"><span class="logo" aria-hidden="true"></span><span class="word">NEBULA</span><span class="sub">SERVICES</span></a>
         <div class="footer-links">
+          <a href="status.html">Status</a>
           <a href="legal.html">Legal</a>
           <a href="about.html">About</a>
           <a href="privacy.html">Privacy</a>
